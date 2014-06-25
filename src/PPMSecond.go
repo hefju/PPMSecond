@@ -5,6 +5,8 @@ import (
 	"models"
 	"github.com/go-martini/martini"
 	"strconv"
+	"encoding/xml"
+
 )
  var taskList models.TaskList
 func main() {
@@ -21,8 +23,22 @@ func SetRoute(m *martini.ClassicMartini) {
 		})
 	//所有任务
 	m.Get("/task/all", func() string {
-
 			return taskList.String()
+		})
+	m.Get("/task/xml", func() []byte {
+			output, _ := xml.MarshalIndent(taskList, "  ", "    ")
+			return output
+		})
+	m.Get("/task/xml/:id", func(params martini.Params)  []byte {
+			id,_:=strconv.Atoi( params["id"])
+
+			if len(taskList.List)>id{
+				one:=	taskList.List[id]
+				output, _ := xml.MarshalIndent(one, "  ", "    ")
+				return output
+			}else{
+				return  []byte("<Task><Content>task not found.</Content></Task>")
+			}
 		})
 	
 	//单个任务
