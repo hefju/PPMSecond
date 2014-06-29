@@ -6,7 +6,7 @@ import (
 	"github.com/go-martini/martini"
 	"strconv"
 	"encoding/xml"
-
+	"encoding/json"
 )
  var taskList models.TaskList
 func main() {
@@ -20,6 +20,26 @@ func SetRoute(m *martini.ClassicMartini) {
 	//主页
 	m.Get("/", func() string {
 			return "<b>欢迎使用任务跟踪管理系统 version 0.1<b>"
+		})
+	m.Get("/json", func() []byte {
+			result,_:=json.Marshal("欢迎使用任务跟踪管理系统 version 0.1")
+			return result;
+		})
+	m.Get("/task/json", func() []byte {
+			output, _ :=json.MarshalIndent(taskList, "  ", "    ")
+			return output
+		})
+
+	m.Get("/task/json/:id", func(params martini.Params) []byte {
+			id,_:=strconv.Atoi( params["id"])
+
+			if len(taskList.List)>id{
+				one:=	taskList.List[id]
+				output, _ := json.MarshalIndent(one, "  ", "    ")
+				return output
+			}else{
+				return  []byte("<Task><Content>task not found.</Content></Task>")
+			}
 		})
 	//所有任务
 	m.Get("/task/all", func() string {

@@ -9,23 +9,23 @@ type User struct {
 	Name string
 }
 
-type Task struct {
+type JTask struct {
 	Id int64
 	Title string
 	Content string
 }
-func(t *Task)String() string {
+func(t *JTask)String() string {
 	return strconv.FormatInt(t.Id,10)+"\t"+ t.Title+",\t"+t.Content+"\n"
 }
 
 type  TaskList struct {
-	List []Task
+	List []JTask
 }
 func (t *TaskList)InitTaskList(){
-	t0:= Task{Id :1,Title:"t0",Content:"silce的用法"}
-	t1:= Task{Id :2,Title:"t1",Content:"struct的用法"}
-	t2:=Task{Id:3,Title:"t2",Content:"类型转换(int64 to string)"}
-	t3:=Task{Id:4,Title:"t3",Content:"字符串拼接(stringbuilder)"}
+	t0:= JTask{Id :1,Title:"t0",Content:"silce的用法"}
+	t1:= JTask{Id :2,Title:"t1",Content:"struct的用法"}
+	t2:=JTask{Id:3,Title:"t2",Content:"类型转换(int64 to string)"}
+	t3:=JTask{Id:4,Title:"t3",Content:"字符串拼接(stringbuilder)"}
 	t.List=append(t.List,t0,t1,t2,t3)
 }
 func (t *TaskList)String() string{
